@@ -40,9 +40,9 @@ window.onload = function(){
   };
   var player = new Sprite(game.spriteWidth, game.spriteHeight);
   var setPlayer = function(){
-    player.spriteOffset = 5;
-    player.startingX = 6;
-    player.startingY = 14;
+    player.spriteOffset = 2;
+    player.startingX = 1;
+    player.startingY = 7;
     player.x = player.startingX * game.spriteWidth;
     player.y = player.startingY * game.spriteHeight;
     player.direction = 0;
@@ -51,8 +51,8 @@ window.onload = function(){
     player.image = new Surface(game.spriteSheetWidth, game.spriteSheetHeight);
     player.image.draw(game.assets['sprites.png']);
 
-    player.name = "Roger";
-    player.characterClass = "Rogue";
+    player.name = "Zyra";
+    player.characterClass = "Magician";
     player.exp = 0;
     player.level = 1;
     player.gp = 100;
@@ -559,4 +559,7 @@ window.onload = function(){
     });
   };
   game.start();
+
+  console.log("game: ", game)
 };
+
