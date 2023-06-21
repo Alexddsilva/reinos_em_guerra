@@ -61,20 +61,18 @@ window.onload = function () {
     player.animationSpeed = 0.2;
     player.addEventListener("enterframe", () => {
       if (game.input.up) {
-        this.frame = (Math.floor(this.age * this.animationSpeed) % 2) + 8; // frames 8 e 9 para cima
+        player.frame = (Math.floor(player.age * player.animationSpeed) % 2) + 7; // frames 8 e 9 para cima
       } else if (game.input.down) {
-        this.frame = (Math.floor(this.age * this.animationSpeed) % 2) + 10; // frames 10 e 11 para baixo
+        player.frame = (Math.floor(player.age * player.animationSpeed) % 2) + 5; // frames 6 e 7 para baixo
       } else if (game.input.left) {
-        this.frame = (Math.floor(this.age * this.animationSpeed) % 2) + 2; // frames 2 e 3 para esquerda
+        player.frame =
+          (Math.floor(player.age * player.animationSpeed) % 2) + 11; // frames 2 e 3 para esquerda
       } else if (game.input.right) {
-        this.frame = (Math.floor(this.age * this.animationSpeed) % 2) + 4; // frames 4 e 5 para direita
-      } else {
-        // Se nenhuma tecla está pressionada, usa o frame 0 (parado)
-        this.frame = 0;
+        player.frame = (Math.floor(player.age * player.animationSpeed) % 2) + 9; // frames 4 e 5 para direita
       }
     });
 
-    player.x = 152; // Posição inicial do personagem
+    player.x = 152;
     player.y = 152;
 
     return player;
@@ -88,8 +86,6 @@ window.onload = function () {
     mainSceneGroup.addChild(map);
     mainSceneGroup.addChild(player);
     mainSceneGroup.addChild(foregroundMap);
-    mainSceneGroup.scaleX = 2;
-    mainSceneGroup.scaleY = 2;
 
     mainScene.addEventListener("enterframe", () => {
       if (game.input.up) {
@@ -103,6 +99,21 @@ window.onload = function () {
       }
       if (game.input.right) {
         player.x += 2;
+      }
+      if (game.input.inventory) {
+        game.pushScene(inventoryScene);
+      }
+      if (game.input.interact) {
+        console.log("apertou e");
+      }
+      if (game.input.skillOne) {
+        console.log("apertou 1");
+      }
+      if (game.input.skillTwo) {
+        console.log("apertou 2");
+      }
+      if (game.input.useSkill) {
+        console.log("apertou espaco");
       }
     });
 
@@ -247,6 +258,8 @@ window.onload = function () {
           commonSword.opacity = commonSword.opacity + 0.1;
           commonSwordLabel.opacity = commonSwordLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -267,6 +280,8 @@ window.onload = function () {
           commonSword.opacity = commonSword.opacity + 0.1;
           commonSwordLabel.opacity = commonSwordLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -288,6 +303,8 @@ window.onload = function () {
           greenSword.opacity = greenSword.opacity + 0.1;
           greenSwordLabel.opacity = greenSwordLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -308,6 +325,8 @@ window.onload = function () {
           greenSword.opacity = greenSword.opacity + 0.1;
           greenSwordLabel.opacity = greenSwordLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -329,6 +348,8 @@ window.onload = function () {
           poisonDagger.opacity = poisonDagger.opacity + 0.1;
           poisonDaggerLabel.opacity = poisonDaggerLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -349,6 +370,8 @@ window.onload = function () {
           poisonDagger.opacity = poisonDagger.opacity + 0.1;
           poisonDaggerLabel.opacity = poisonDaggerLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -370,6 +393,8 @@ window.onload = function () {
           warlodSword.opacity = warlodSword.opacity + 0.1;
           wardlordSwordLabel.opacity = wardlordSwordLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -390,6 +415,8 @@ window.onload = function () {
           warlodSword.opacity = warlodSword.opacity + 0.1;
           wardlordSwordLabel.opacity = wardlordSwordLabel.opacity + 0.1;
         }
+
+        game.popScene();
       }
 
       alteraOpacity();
@@ -408,6 +435,11 @@ window.onload = function () {
     inventario.addChild(wardlordSwordLabel);
 
     inventoryScene.addChild(inventario);
+    inventoryScene.addEventListener("enterframe", () => {
+      if (game.input.scape) {
+        game.popScene();
+      }
+    });
   };
 
   game.onload = function () {
