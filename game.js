@@ -1,7 +1,10 @@
 enchant();
 
 window.onload = function () {
-  const game = new Game(800, 600);
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  const game = new Game(screenWidth, screenHeight);
   game.preload([
     "./images/characters/dargan.png",
     "./images/characters/elda.png",
