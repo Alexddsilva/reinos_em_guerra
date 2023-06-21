@@ -13,8 +13,13 @@ window.onload = function () {
 
   const setCharacterMenu = () => {
     const menu = new Group(); // Grupo para conter as opções de personagens
-    menu.x = 100; // Posição horizontal do menu
-    menu.y = 100; // Posição vertical do menu
+    menu.x = screenWidth / 2; // Posição horizontal do menu
+    menu.y = screenHeight / 2; // Posição vertical do menu
+    menu.backgroundColor = "#ff0000";
+    menu.scaleX = 0.5;
+    menu.scaleY = 0.5;
+
+    console.log(menu);
 
     const startX = 0;
     const imageSize = 512;
