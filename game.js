@@ -1,5 +1,7 @@
 enchant();
 
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
 window.onload = function () {
   const screenWidth = 800;
   const screenHeight = 600;
@@ -33,7 +35,16 @@ window.onload = function () {
     option1.x = startX;
     option1.y = 0;
     option1.addEventListener("touchstart", () => {
-      alert("Escolheu Dargan");
+      option1.opacity = 0.3;
+
+      async function alteraOpacity() {
+        for (let i = 0; i < 7; i++) {
+          await sleep(50);
+          option1.opacity = option1.opacity + 0.1;
+        }
+      }
+
+      alteraOpacity();
     });
 
     const label1 = new Label("Dargan");
@@ -53,7 +64,16 @@ window.onload = function () {
     option2.x = startX + imageHalfSize + spacing;
     option2.y = 0;
     option2.addEventListener("touchstart", () => {
-      alert("Escolheu Elda");
+      option2.opacity = 0.3;
+
+      async function alteraOpacity() {
+        for (let i = 0; i < 7; i++) {
+          await sleep(50);
+          option2.opacity = option2.opacity + 0.1;
+        }
+      }
+
+      alteraOpacity();
     });
 
     const label2 = new Label("Elda");
@@ -73,7 +93,16 @@ window.onload = function () {
     option3.x = startX + (imageHalfSize + spacing) * 2;
     option3.y = 0;
     option3.addEventListener("touchstart", () => {
-      alert("Escolheu Zyra");
+      option3.opacity = 0.3;
+
+      async function alteraOpacity() {
+        for (let i = 0; i < 7; i++) {
+          await sleep(50);
+          option3.opacity = option3.opacity + 0.1;
+        }
+      }
+
+      alteraOpacity();
     });
 
     const label3 = new Label("Zyra");
