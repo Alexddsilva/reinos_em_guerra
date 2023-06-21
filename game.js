@@ -2,22 +2,26 @@ enchant();
 
 window.onload = function () {
   const game = new Game(800, 600);
-  game.preload("caminho/para/spritesheet.png"); // Preload de recursos, como imagens
+  game.preload([
+    "./images/characters/dargan.png",
+    "./images/characters/elda.png",
+    "./images/characters/zyra.png",
+  ]); // Preload de recursos, como imagens
 
   const setCharacterMenu = () => {
-    const menu = new enchant.Group(); // Grupo para conter as opções de personagens
+    const menu = new Group(); // Grupo para conter as opções de personagens
     menu.x = 100; // Posição horizontal do menu
     menu.y = 100; // Posição vertical do menu
 
     // Opção de Personagem 1
-    const option1 = new enchant.Sprite(512, 512);
-    option1.image = game.assets["character1.png"];
+    const option1 = new Sprite(512, 512);
+    option1.image = game.assets["./images/characters/dargan.png"];
     option1.scaleX = 0.5; // Redimensiona pela metade na horizontal
     option1.scaleY = 0.5; // Redimensiona pela metade na vertical
     option1.x = 0;
     option1.y = 0;
 
-    const label1 = new enchant.Label("Personagem 1");
+    const label1 = new Label("Personagem 1");
     label1.x = 0;
     label1.y = 520;
 
@@ -25,14 +29,14 @@ window.onload = function () {
     menu.addChild(label1);
 
     // Opção de Personagem 2 (semelhante às opções restantes)
-    const option2 = new enchant.Sprite(512, 512);
-    option2.image = game.assets["character2.png"];
+    const option2 = new Sprite(512, 512);
+    option2.image = game.assets["./images/characters/elda.png"];
     option2.scaleX = 0.5;
     option2.scaleY = 0.5;
     option2.x = 200;
     option2.y = 0;
 
-    const label2 = new enchant.Label("Personagem 2");
+    const label2 = new Label("Personagem 2");
     label2.x = 200;
     label2.y = 520;
 
@@ -40,14 +44,14 @@ window.onload = function () {
     menu.addChild(label2);
 
     // Opção de Personagem 3 (semelhante às opções restantes)
-    const option3 = new enchant.Sprite(512, 512);
-    option3.image = game.assets["character3.png"];
+    const option3 = new Sprite(512, 512);
+    option3.image = game.assets["./images/characters/zyra.png"];
     option3.scaleX = 0.5;
     option3.scaleY = 0.5;
     option3.x = 400;
     option3.y = 0;
 
-    const label3 = new enchant.Label("Personagem 3");
+    const label3 = new Label("Personagem 3");
     label3.x = 400;
     label3.y = 520;
 
