@@ -13,14 +13,12 @@ window.onload = function () {
     "./images/characters/zyra.png",
   ]); // Preload de recursos, como imagens
 
-  const setCharacterMenu = () => {
+  const menuScene = () => {
     const menu = new Group(); // Grupo para conter as opções de personagens
     menu.x = 140; // Posição horizontal do menu
     menu.y = 150; // Posição vertical do menu
     menu.scaleX = 0.5;
     menu.scaleY = 0.5;
-
-    console.log(menu);
 
     const startX = 0;
     const imageSize = 512;
@@ -118,7 +116,7 @@ window.onload = function () {
   };
 
   game.onload = function () {
-    setCharacterMenu();
+    menuScene();
   };
 
   game.start();
