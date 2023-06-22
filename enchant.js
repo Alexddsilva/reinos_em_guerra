@@ -3625,9 +3625,9 @@
 
         for (var y = 0, l = data.length; y < l; y++) {
           for (var x = 0, ll = data[y].length; x < ll; x++) {
-            // if (data[y][x] >= 0) {
-            //   c++;
-            // }
+            if (data[y][x] >= 0) {
+              c++;
+            }
           }
         }
 

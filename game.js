@@ -23,42 +23,61 @@ window.onload = function () {
   ]); // Preload de recursos, como imagens
 
   const menuScene = new Scene();
-  const mainScene = new Scene();
+  const mainSceneOne = new Scene();
+  const mainSceneTwo = new Scene();
+  const mainSceneThree = new Scene();
   const inventoryScene = new Scene();
 
   const createMap = () => {
     const spriteWidth = 16;
     const spriteHeight = 16;
 
-    let backgroundMap = [];
-    if (choosedPlayer === "dargan") backgroundMap = backgroundMapDargan;
-    else if (choosedPlayer === "zyra") backgroundMap = backgroundMapZyra;
-    else if (choosedPlayer === "elda") backgroundMap = backgroundMapElda;
+    let bgMap = [];
+    let fgMapOne = [];
+    let fgMapTwo = [];
 
-    const map = new Map(spriteWidth, spriteHeight);
-    map.image = game.assets["./images/sprites/default.png"];
-    map.loadData(backgroundMap);
+    if (choosedPlayer === "dargan") {
+      bgMap = backgroundMapDargan;
+      fgMapOne = foregroundMapDarganOne;
+      fgMapTwo = foregroundMapDarganTwo;
+    } else if (choosedPlayer === "zyra") {
+      bgMap = backgroundMapZyra;
+      fgMapOne = foregroundMapZyraOne;
+      fgMapTwo = foregroundMapZyraTwo;
+    } else if (choosedPlayer === "elda") {
+      bgMap = backgroundMapElda;
+      fgMapOne = foregroundMapEldaOne;
+      fgMapTwo = foregroundMapEldaTwo;
+    }
 
-    // const foregroundMap = new Map(spriteWidth, spriteHeight);
-    // map.image = game.assets["./images/sprites/default.png"];
-    // map.loadData(objectsOnMapDarganOne);
+    const backgroundMap = new Map(spriteWidth, spriteHeight);
+    backgroundMap.image = game.assets["./images/sprites/default.png"];
+    backgroundMap.loadData(bgMap);
 
-    // const foregroundMap = new Map(spriteWidth, spriteHeight);
-    // foregroundMap.image = game.assets["./images/sprites/default.png"];
-    // foregroundMap.loadData(foregroundData);
+    const foregroundMapOne = new Map(spriteWidth, spriteHeight);
+    foregroundMapOne.image = game.assets["./images/sprites/default.png"];
+    foregroundMapOne.loadData(fgMapOne);
 
-    // const collisionData = [];
-    // for (var i = 0; i < foregroundData.length; i++) {
-    //   collisionData.push([]);
-    //   for (var j = 0; j < foregroundData[0].length; j++) {
-    //     var collision = foregroundData[i][j] % 13 > 1 ? 1 : 0;
-    //     collisionData[i][j] = collision;
-    //   }
-    // }
+    const foregroundMapTwo = new Map(spriteWidth, spriteHeight);
+    foregroundMapTwo.image = game.assets["./images/sprites/default.png"];
+    foregroundMapTwo.loadData(fgMapTwo);
 
-    // map.collisionData = collisionData;
-    // return { map, foregroundMap };
-    return { map };
+    return { backgroundMap, foregroundMapOne, foregroundMapTwo };
+  };
+
+  const createCave = () => {
+    const spriteWidth = 16;
+    const spriteHeight = 16;
+
+    const bgCave = new Map(spriteWidth, spriteHeight);
+    bgCave.image = game.assets["./images/sprites/default.png"];
+    bgCave.loadData(backgroundCave);
+
+    const fgCave = new Map(spriteWidth, spriteHeight);
+    fgCave.image = game.assets["./images/sprites/default.png"];
+    fgCave.loadData(foregroundCave);
+
+    return { bgCave, fgCave };
   };
 
   const createPlayer = () => {
@@ -88,24 +107,119 @@ window.onload = function () {
     return player;
   };
 
-  const createMainScene = () => {
-    // const { map, foregroundMap } = createMap();
-    const { map } = createMap();
-    const player = createPlayer();
+  const createMainSceneOne = (player) => {
+    const { backgroundMap, foregroundMapOne } = createMap();
 
     const mainSceneGroup = new Group();
-    mainSceneGroup.addChild(map);
+    mainSceneGroup.addChild(backgroundMap);
     mainSceneGroup.addChild(player);
-    // mainSceneGroup.addChild(foregroundMap);
+    mainSceneGroup.addChild(foregroundMapOne);
 
-    mainScene.addEventListener("enterframe", () => {
-      if (game.input.up) {
+    mainSceneOne.addEventListener("enterframe", () => {
+      if (game.input.up && player.y >= 2) {
         player.y -= 2;
       }
-      if (game.input.down) {
+      if (game.input.down && player.y <= 590) {
+        player.y += 2;
+      }
+      if (game.input.left && player.x >= 2) {
+        player.x -= 2;
+      }
+      if (game.input.right) {
+        player.x += 2;
+      }
+      if (game.input.right && player.x > 790) {
+        player.x = 10;
+        createMainSceneTwo(player);
+        game.replaceScene(mainSceneTwo);
+      }
+      if (game.input.inventory) {
+        game.pushScene(inventoryScene);
+      }
+      if (game.input.interact) {
+        console.log("apertou e");
+      }
+      if (game.input.skillOne) {
+        console.log("apertou 1");
+      }
+      if (game.input.skillTwo) {
+        console.log("apertou 2");
+      }
+      if (game.input.useSkill) {
+        console.log("apertou espaco");
+      }
+    });
+
+    mainSceneOne.addChild(mainSceneGroup);
+  };
+
+  const createMainSceneTwo = (player) => {
+    const { backgroundMap, foregroundMapTwo } = createMap();
+
+    const mainSceneGroup = new Group();
+    mainSceneGroup.addChild(backgroundMap);
+    mainSceneGroup.addChild(player);
+    mainSceneGroup.addChild(foregroundMapTwo);
+
+    mainSceneTwo.addEventListener("enterframe", () => {
+      if (game.input.up && player.y >= 2) {
+        player.y -= 2;
+      }
+      if (game.input.down && player.y <= 590) {
         player.y += 2;
       }
       if (game.input.left) {
+        player.x -= 2;
+      }
+      if (game.input.left && player.x <= 2) {
+        player.x = 790;
+        createMainSceneOne(player);
+        game.replaceScene(mainSceneOne);
+      }
+      if (game.input.right) {
+        player.x += 2;
+      }
+      if (game.input.right && player.x > 790) {
+        player.x = 10;
+        createMainSceneThree(player);
+        game.replaceScene(mainSceneThree);
+      }
+      if (game.input.inventory) {
+        game.pushScene(inventoryScene);
+      }
+      if (game.input.interact) {
+        console.log("apertou e");
+      }
+      if (game.input.skillOne) {
+        console.log("apertou 1");
+      }
+      if (game.input.skillTwo) {
+        console.log("apertou 2");
+      }
+      if (game.input.useSkill) {
+        console.log("apertou espaco");
+      }
+    });
+
+    mainSceneTwo.addChild(mainSceneGroup);
+  };
+
+  const createMainSceneThree = (player) => {
+    const { bgCave, fgCave } = createCave();
+
+    const mainSceneGroup = new Group();
+    mainSceneGroup.addChild(bgCave);
+    mainSceneGroup.addChild(player);
+    mainSceneGroup.addChild(fgCave);
+
+    mainSceneThree.addEventListener("enterframe", () => {
+      if (game.input.up && player.y >= 2) {
+        player.y -= 2;
+      }
+      if (game.input.down && player.y <= 590) {
+        player.y += 2;
+      }
+      if (game.input.left && player.x >= 2) {
         player.x -= 2;
       }
       if (game.input.right) {
@@ -128,7 +242,7 @@ window.onload = function () {
       }
     });
 
-    mainScene.addChild(mainSceneGroup);
+    mainSceneThree.addChild(mainSceneGroup);
   };
 
   const createMenuScene = () => {
@@ -160,8 +274,9 @@ window.onload = function () {
         }
 
         choosedPlayer = "dargan";
-        createMainScene();
-        game.replaceScene(mainScene);
+        const player = createPlayer();
+        createMainSceneOne(player);
+        game.replaceScene(mainSceneOne);
       }
 
       alteraOpacity();
@@ -193,8 +308,9 @@ window.onload = function () {
         }
 
         choosedPlayer = "elda";
-        createMainScene();
-        game.replaceScene(mainScene);
+        const player = createPlayer();
+        createMainSceneOne(player);
+        game.replaceScene(mainSceneOne);
       }
 
       alteraOpacity();
@@ -226,8 +342,9 @@ window.onload = function () {
         }
 
         choosedPlayer = "zyra";
-        createMainScene();
-        game.replaceScene(mainScene);
+        const player = createPlayer();
+        createMainSceneOne(player);
+        game.replaceScene(mainSceneOne);
       }
 
       alteraOpacity();
