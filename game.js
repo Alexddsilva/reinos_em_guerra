@@ -30,25 +30,35 @@ window.onload = function () {
     const spriteWidth = 16;
     const spriteHeight = 16;
 
+    let backgroundMap = [];
+    if (choosedPlayer === "dargan") backgroundMap = backgroundMapDargan;
+    else if (choosedPlayer === "zyra") backgroundMap = backgroundMapZyra;
+    else if (choosedPlayer === "elda") backgroundMap = backgroundMapElda;
+
     const map = new Map(spriteWidth, spriteHeight);
     map.image = game.assets["./images/sprites/default.png"];
-    map.loadData(mapData);
+    map.loadData(backgroundMap);
 
-    const foregroundMap = new Map(spriteWidth, spriteHeight);
-    foregroundMap.image = game.assets["./images/sprites/default.png"];
-    foregroundMap.loadData(foregroundData);
+    // const foregroundMap = new Map(spriteWidth, spriteHeight);
+    // map.image = game.assets["./images/sprites/default.png"];
+    // map.loadData(objectsOnMapDarganOne);
 
-    const collisionData = [];
-    for (var i = 0; i < foregroundData.length; i++) {
-      collisionData.push([]);
-      for (var j = 0; j < foregroundData[0].length; j++) {
-        var collision = foregroundData[i][j] % 13 > 1 ? 1 : 0;
-        collisionData[i][j] = collision;
-      }
-    }
+    // const foregroundMap = new Map(spriteWidth, spriteHeight);
+    // foregroundMap.image = game.assets["./images/sprites/default.png"];
+    // foregroundMap.loadData(foregroundData);
 
-    map.collisionData = collisionData;
-    return { map, foregroundMap };
+    // const collisionData = [];
+    // for (var i = 0; i < foregroundData.length; i++) {
+    //   collisionData.push([]);
+    //   for (var j = 0; j < foregroundData[0].length; j++) {
+    //     var collision = foregroundData[i][j] % 13 > 1 ? 1 : 0;
+    //     collisionData[i][j] = collision;
+    //   }
+    // }
+
+    // map.collisionData = collisionData;
+    // return { map, foregroundMap };
+    return { map };
   };
 
   const createPlayer = () => {
@@ -56,7 +66,7 @@ window.onload = function () {
     const spriteHeight = 16;
 
     const player = new Sprite(spriteWidth, spriteHeight);
-    player.image = game.assets[choosedPlayer];
+    player.image = game.assets[`./images/sprites/${choosedPlayer}.png`];
     player.frame = 6;
     player.animationSpeed = 0.2;
     player.addEventListener("enterframe", () => {
@@ -79,13 +89,14 @@ window.onload = function () {
   };
 
   const createMainScene = () => {
-    const { map, foregroundMap } = createMap();
+    // const { map, foregroundMap } = createMap();
+    const { map } = createMap();
     const player = createPlayer();
 
     const mainSceneGroup = new Group();
     mainSceneGroup.addChild(map);
     mainSceneGroup.addChild(player);
-    mainSceneGroup.addChild(foregroundMap);
+    // mainSceneGroup.addChild(foregroundMap);
 
     mainScene.addEventListener("enterframe", () => {
       if (game.input.up) {
@@ -148,7 +159,7 @@ window.onload = function () {
           option1.opacity = option1.opacity + 0.1;
         }
 
-        choosedPlayer = "./images/sprites/dargan.png";
+        choosedPlayer = "dargan";
         createMainScene();
         game.replaceScene(mainScene);
       }
@@ -181,7 +192,7 @@ window.onload = function () {
           option2.opacity = option2.opacity + 0.1;
         }
 
-        choosedPlayer = "./images/sprites/elda.png";
+        choosedPlayer = "elda";
         createMainScene();
         game.replaceScene(mainScene);
       }
@@ -214,7 +225,7 @@ window.onload = function () {
           option3.opacity = option3.opacity + 0.1;
         }
 
-        choosedPlayer = "./images/sprites/zyra.png";
+        choosedPlayer = "zyra";
         createMainScene();
         game.replaceScene(mainScene);
       }

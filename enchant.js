@@ -3617,22 +3617,24 @@
     loadData: function (data) {
       this._data = Array.prototype.slice.apply(arguments);
       this._dirty = true;
-
       this._tight = false;
+
       for (var i = 0, len = this._data.length; i < len; i++) {
         var c = 0;
         data = this._data[i];
+
         for (var y = 0, l = data.length; y < l; y++) {
           for (var x = 0, ll = data[y].length; x < ll; x++) {
-            if (data[y][x] >= 0) {
-              c++;
-            }
+            // if (data[y][x] >= 0) {
+            //   c++;
+            // }
           }
         }
-        if (c / (data.length * data[0].length) > 0.2) {
-          this._tight = true;
-          break;
-        }
+
+        // if (c / (data.length * data[0].length) > 0.2) {
+        //   this._tight = true;
+        //   break;
+        // }
       }
     },
     /**
