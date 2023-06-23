@@ -5,6 +5,7 @@ const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 window.onload = function () {
   const screenWidth = 800;
   const screenHeight = 600;
+  const playerMovePixel = 30;
   let choosedPlayer = "";
 
   const game = new Game(screenWidth, screenHeight);
@@ -20,6 +21,12 @@ window.onload = function () {
     "./images/items/green_sword.png",
     "./images/items/poison_dagger.png",
     "./images/items/warlord_sword.png",
+    "./images/cutscenes/battle.jpg",
+    "./images/cutscenes/stone.jpg",
+    "./images/cutscenes/dargan.jpg",
+    "./images/cutscenes/elda.jpg",
+    "./images/cutscenes/zyra.jpg",
+    "./images/cutscenes/black.png",
   ]); // Preload de recursos, como imagens
 
   const menuScene = new Scene();
@@ -27,7 +34,13 @@ window.onload = function () {
   const mainSceneTwo = new Scene();
   const mainSceneThree = new Scene();
   const inventoryScene = new Scene();
+  const cutScenePedra = new Scene();
+  const cutSceneGuerra = new Scene();
+  const cutScenePreta = new Scene();
+  const cutSceneMorte = new Scene();
+  const cutSceneFinal = new Scene();
 
+  // Utils
   const createMap = () => {
     const spriteWidth = 16;
     const spriteHeight = 16;
@@ -107,6 +120,246 @@ window.onload = function () {
     return player;
   };
 
+  function aguardarComando() {
+    return new Promise(function (resolve) {
+      function handleTeclado(event) {
+        window.removeEventListener("keydown", handleTeclado);
+        resolve(event.key);
+      }
+      window.addEventListener("keydown", handleTeclado);
+    });
+  }
+
+  // Cutscenes
+  const createCutScenePedra = async () => {
+    const sceneOneGroup = new Group();
+
+    const scene = new Sprite(800, 600);
+    scene.image = game.assets[`./images/cutscenes/stone.jpg`];
+    scene.x = 0;
+    scene.y = 0;
+
+    sceneOneGroup.addChild(scene);
+    cutScenePedra.addChild(sceneOneGroup);
+
+    const finalmente = new Label(
+      "Finalmente, a lendária pedra do destino! Ela é minha por direito!"
+    );
+    finalmente.font = "15px Arial";
+    finalmente.color = "#FFF";
+    finalmente.x = 250;
+    finalmente.y = 500;
+
+    sceneOneGroup.addChild(finalmente);
+    await aguardarComando();
+    sceneOneGroup.removeChild(finalmente);
+
+    const eiei = new Label(
+      "Ei, ei! Olha só quem temos aqui. Parece que não somos os únicos que buscavam essa pedra."
+    );
+    eiei.font = "15px Arial";
+    eiei.color = "#FFF";
+    eiei.x = 200;
+    eiei.y = 200;
+
+    sceneOneGroup.addChild(eiei);
+    await aguardarComando();
+    sceneOneGroup.removeChild(eiei);
+
+    const desistir = new Label(
+      "Você pode desistir. Nós chegamos primeiro e não vamos deixar que uma criança como você fique com essa preciosidade."
+    );
+    desistir.font = "15px Arial";
+    desistir.color = "#FFF";
+    desistir.x = 400;
+    desistir.y = 200;
+
+    sceneOneGroup.addChild(desistir);
+    await aguardarComando();
+    sceneOneGroup.removeChild(desistir);
+
+    const voces = new Label(
+      "Vocês dois não têm ideia do poder que essa pedra possui. Eu vou usá-la para fazer o bem, para proteger aqueles que amo"
+    );
+    voces.font = "15px Arial";
+    voces.color = "#FFF";
+    voces.x = 250;
+    voces.y = 500;
+
+    sceneOneGroup.addChild(voces);
+    await aguardarComando();
+    sceneOneGroup.removeChild(voces);
+
+    const ouvimos = new Label(
+      "Ah, ouvimos essa história antes. Todos querem usar o poder para o bem, mas no final, é a ambição que prevalece."
+    );
+    ouvimos.font = "15px Arial";
+    ouvimos.color = "#FFF";
+    ouvimos.x = 200;
+    ouvimos.y = 200;
+
+    sceneOneGroup.addChild(ouvimos);
+    await aguardarComando();
+    sceneOneGroup.removeChild(ouvimos);
+
+    const especial = new Label(
+      "Você acha que é especial? Acredita que merece esse poder mais do que nós? Vamos ver se você consegue nos impedir."
+    );
+    especial.font = "15px Arial";
+    especial.color = "#FFF";
+    especial.x = 400;
+    especial.y = 200;
+
+    sceneOneGroup.addChild(especial);
+    await aguardarComando();
+    sceneOneGroup.removeChild(especial);
+
+    const black = new Sprite(800, 600);
+    black.image = game.assets["./images/cutscenes/black.png"];
+    black.opacity = 0;
+    sceneOneGroup.addChild(black);
+
+    for (let i = 0; i < 10; i++) {
+      await sleep(100);
+      black.opacity = black.opacity + 0.1;
+    }
+
+    createCutScenePreta()
+    game.replaceScene(cutScenePreta);
+  };
+
+  const createCutSceneGuerra = async () => {
+    const sceneOneGroup = new Group();
+
+    const scene = new Sprite(800, 600);
+    scene.image = game.assets[`./images/cutscenes/battle.jpg`];
+    scene.x = 0;
+    scene.y = 0;
+
+    sceneOneGroup.addChild(scene);
+    cutSceneGuerra.addChild(sceneOneGroup);
+
+    const falas = new Label();
+    falas.font = "15px Arial";
+    falas.color = "#FFF";
+    falas.x = 250;
+    falas.y = 500;
+
+    sceneOneGroup.addChild(falas);
+
+    falas.text = "Num mundo devastado pela guerra e pela ganância, três raças distintas lutam pela supremacia e pelos recursos escassos nos Reinos em Guerra"
+
+    await aguardarComando();
+
+    falas.text = `Mas existe uma esperança de acabar com toda a guerra que acontece durante muito tempo. A esperança é você, ${choosedPlayer.at(0).toUpperCase() + choosedPlayer.slice(1, choosedPlayer.length)}!`
+    
+    await aguardarComando();
+    
+    falas.text = 'Existe a lenda de um antigo artefáto que dará um grande poder pra quem o descobrir'
+    
+    await aguardarComando();
+    
+    falas.text = 'Talvez essa seja a esperança que procuramos?'
+
+    await aguardarComando();
+
+    game.replaceScene(mainSceneOne);
+  }
+
+  const createCutSceneFinal = async () => {
+    const sceneOneGroup = new Group();
+    const scene = new Sprite(800, 600);
+    scene.image = game.assets[`./images/cutscenes/black.png`];
+    scene.x = 0;
+    scene.y = 0;
+
+    sceneOneGroup.addChild(scene)
+    cutSceneMorte.addChild(sceneOneGroup);
+
+    const falas = new Label();
+    falas.font = "20px Arial";
+    falas.color = "#FFF";
+    falas.x = 260;
+    falas.y = 280;
+
+    sceneOneGroup.addChild(falas);
+
+    falas.text = `Os reinos continuarão em guerra!`
+    await aguardarComando()
+  }
+
+  const createCutSceneMorte = async () => {
+    const sceneOneGroup = new Group();
+    const scene = new Sprite(800, 600);
+    scene.image = game.assets[`./images/cutscenes/${choosedPlayer}.jpg`];
+    scene.x = 0;
+    scene.y = 0;
+
+    sceneOneGroup.addChild(scene)
+    cutSceneMorte.addChild(sceneOneGroup);
+
+    await aguardarComando()
+    createCutSceneFinal()
+
+    const black = new Sprite(800, 600);
+    black.image = game.assets["./images/cutscenes/black.png"];
+    black.opacity = 0;
+    sceneOneGroup.addChild(black);
+
+    for (let i = 0; i < 10; i++) {
+      await sleep(100);
+      black.opacity = black.opacity + 0.1;
+    }
+
+    await sleep(1000)
+    game.replaceScene(cutSceneFinal)
+  }
+
+  const createCutScenePreta = async () => {
+    const sceneOneGroup = new Group();
+
+    const scene = new Sprite(800, 600);
+    scene.image = game.assets[`./images/cutscenes/black.png`];
+    scene.x = 0;
+    scene.y = 0;
+
+    sceneOneGroup.addChild(scene);
+    cutScenePreta.addChild(sceneOneGroup);
+
+    const falas = new Label();
+    falas.font = "25px Arial";
+    falas.color = "#FFF";
+    falas.x = 250;
+    falas.y = 250;
+
+    sceneOneGroup.addChild(falas);
+
+    falas.text = `Após uma longa batalha contra os inimigos, ${choosedPlayer} venceu!`
+
+    await aguardarComando();
+
+    falas.x = 350;
+    falas.y = 250;
+    falas.text = 'Porem...'
+
+    await aguardarComando();
+
+    const black = new Sprite(800, 600);
+    black.image = game.assets["./images/cutscenes/black.png"];
+    black.opacity = 0;
+    sceneOneGroup.addChild(black);
+
+    for (let i = 0; i < 10; i++) {
+      await sleep(100);
+      black.opacity = black.opacity + 0.1;
+    }
+
+    await sleep(1000)
+    createCutSceneMorte()
+    game.replaceScene(cutSceneMorte);
+  }
+
+  // Cenas de jogo
   const createMainSceneOne = (player) => {
     const { backgroundMap, foregroundMapOne } = createMap();
 
@@ -117,16 +370,16 @@ window.onload = function () {
 
     mainSceneOne.addEventListener("enterframe", () => {
       if (game.input.up && player.y >= 2) {
-        player.y -= 2;
+        player.y -= playerMovePixel;
       }
       if (game.input.down && player.y <= 590) {
-        player.y += 2;
+        player.y += playerMovePixel;
       }
       if (game.input.left && player.x >= 2) {
-        player.x -= 2;
+        player.x -= playerMovePixel;
       }
       if (game.input.right) {
-        player.x += 2;
+        player.x += playerMovePixel;
       }
       if (game.input.right && player.x > 790) {
         player.x = 10;
@@ -163,13 +416,13 @@ window.onload = function () {
 
     mainSceneTwo.addEventListener("enterframe", () => {
       if (game.input.up && player.y >= 2) {
-        player.y -= 2;
+        player.y -= playerMovePixel;
       }
       if (game.input.down && player.y <= 590) {
-        player.y += 2;
+        player.y += playerMovePixel;
       }
       if (game.input.left) {
-        player.x -= 2;
+        player.x -= playerMovePixel;
       }
       if (game.input.left && player.x <= 2) {
         player.x = 790;
@@ -177,7 +430,7 @@ window.onload = function () {
         game.replaceScene(mainSceneOne);
       }
       if (game.input.right) {
-        player.x += 2;
+        player.x += playerMovePixel;
       }
       if (game.input.right && player.x > 790) {
         player.x = 10;
@@ -214,22 +467,45 @@ window.onload = function () {
 
     mainSceneThree.addEventListener("enterframe", () => {
       if (game.input.up && player.y >= 2) {
-        player.y -= 2;
+        player.y -= playerMovePixel;
       }
       if (game.input.down && player.y <= 590) {
-        player.y += 2;
+        player.y += playerMovePixel;
       }
       if (game.input.left && player.x >= 2) {
-        player.x -= 2;
+        player.x -= playerMovePixel;
       }
       if (game.input.right) {
-        player.x += 2;
+        player.x += playerMovePixel;
       }
       if (game.input.inventory) {
         game.pushScene(inventoryScene);
       }
       if (game.input.interact) {
-        console.log("apertou e");
+        if (
+          player.x > 340 &&
+          player.x < 480 &&
+          player.y > 200 &&
+          player.y < 300
+        ) {
+          createCutScenePedra();
+
+          async function apagaCena() {
+            const black = new Sprite(800, 600);
+            black.image = game.assets["./images/cutscenes/black.png"];
+            black.opacity = 0;
+            mainSceneGroup.addChild(black);
+
+            for (let i = 0; i < 10; i++) {
+              await sleep(100);
+              black.opacity = black.opacity + 0.1;
+            }
+
+            game.replaceScene(cutScenePedra);
+          }
+
+          apagaCena();
+        }
       }
       if (game.input.skillOne) {
         console.log("apertou 1");
@@ -276,7 +552,8 @@ window.onload = function () {
         choosedPlayer = "dargan";
         const player = createPlayer();
         createMainSceneOne(player);
-        game.replaceScene(mainSceneOne);
+        createCutSceneGuerra()
+        game.replaceScene(cutSceneGuerra);
       }
 
       alteraOpacity();
@@ -310,7 +587,8 @@ window.onload = function () {
         choosedPlayer = "elda";
         const player = createPlayer();
         createMainSceneOne(player);
-        game.replaceScene(mainSceneOne);
+        createCutSceneGuerra()
+        game.replaceScene(cutSceneGuerra);
       }
 
       alteraOpacity();
@@ -344,7 +622,8 @@ window.onload = function () {
         choosedPlayer = "zyra";
         const player = createPlayer();
         createMainSceneOne(player);
-        game.replaceScene(mainSceneOne);
+        createCutSceneGuerra()
+        game.replaceScene(cutSceneGuerra);
       }
 
       alteraOpacity();
@@ -570,6 +849,7 @@ window.onload = function () {
     });
   };
 
+  /// Jogo
   game.onload = function () {
     createMenuScene();
     inventarioScene();
