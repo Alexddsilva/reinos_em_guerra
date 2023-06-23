@@ -5,7 +5,7 @@ const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 window.onload = function () {
   const screenWidth = 800;
   const screenHeight = 600;
-  const playerMovePixel = 30;
+  const playerMovePixel = 2;
   let choosedPlayer = "";
 
   const game = new Game(screenWidth, screenHeight);
